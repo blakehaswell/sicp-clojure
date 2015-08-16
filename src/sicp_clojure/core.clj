@@ -40,3 +40,37 @@
                        q
                        (- count 1))))]
     (f 1 0 0 1 n)))
+
+(defn expt1
+  "Computes the exponential (n) of a given number (b)."
+  [b n]
+  (if (= n 0)
+    1
+    (*' b (expt1 b (- n 1)))))
+
+(defn expt2
+  "Computes the exponential (n) of a given number (b)"
+  [b n]
+  (letfn [(f [b count product]
+           (if (= count 0)
+             product
+             (f b (- count 1) (*' b product))))]
+    (f b n 1)))
+
+(defn expt3
+  "Computes the exponential (n) of a given number (b)"
+  [b n]
+  (cond
+    (= n 0) 1
+    (even? n) (expt3 (*' b b) (/ n 2))
+    :else (* b (expt3 b (- n 1)))))
+
+(defn expt4
+  "Computes the exponential (n) of a given number (b)"
+  [b n]
+  (letfn [(f [b n a]
+            (cond
+              (= n 0) a
+              (even? n) (f (*' b b) (/ n 2) a)
+              :else (f b (- n 1) (*' b a))))]
+    (f b n 1)))

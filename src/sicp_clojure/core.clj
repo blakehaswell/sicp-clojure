@@ -16,30 +16,34 @@
   iterative algothm, which has much better performance with larger
   values of n."
   [n]
-  (letfn [(f [a b count]
-            (if (= count 0)
-              b
-              (f (+ a b) a (- count 1))))]
-    (f 1 0 n)))
+  (loop [a 1
+         b 0
+         count n]
+    (if (= count 0)
+      b
+      (recur (+' a b) a (- count 1)))))
 
 (defn fib3
   "Computes the nth number in the Fibonacci sequence. Uses a clever
   algorithm which computers in logarithmic time."
   [n]
-  (letfn [(f [a b p q count]
-            (cond
-              (= count 0) b
-              (even? count) (f a
-                               b
-                               (+ (* p p) (* q q))
-                               (+ (* 2 p q) (* q q))
-                               (/ count 2))
-              :else (f (+ (* b q) (* a q) (* a p))
-                       (+ (* b p) (* a q))
-                       p
-                       q
-                       (- count 1))))]
-    (f 1 0 0 1 n)))
+  (loop [a 1
+         b 0
+         p 0
+         q 1
+         count n]
+    (cond
+      (= count 0) b
+      (even? count) (recur a
+                           b
+                           (+' (*' p p) (*' q q))
+                           (+' (*' 2 p q) (*' q q))
+                           (/ count 2))
+      :else (recur (+' (*' b q) (*' a q) (*' a p))
+                   (+' (*' b p) (*' a q))
+                   p
+                   q
+                   (- count 1)))))
 
 (defn expt1
   "Computes the exponential (n) of a given number (b)."

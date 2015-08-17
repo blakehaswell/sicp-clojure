@@ -55,11 +55,11 @@
 (defn expt2
   "Computes the exponential (n) of a given number (b)"
   [b n]
-  (letfn [(f [b count product]
-           (if (= count 0)
-             product
-             (f b (- count 1) (*' b product))))]
-    (f b n 1)))
+  (loop [count n
+         product 1]
+    (if (= count 0)
+      product
+      (recur (- count 1) (*' b product)))))
 
 (defn expt3
   "Computes the exponential (n) of a given number (b)"
@@ -72,9 +72,10 @@
 (defn expt4
   "Computes the exponential (n) of a given number (b)"
   [b n]
-  (letfn [(f [b n a]
-            (cond
-              (= n 0) a
-              (even? n) (f (*' b b) (/ n 2) a)
-              :else (f b (- n 1) (*' b a))))]
-    (f b n 1)))
+  (loop [b b
+         n n
+         a 1]
+    (cond
+      (= n 0) a
+      (even? n) (recur (*' b b) (/ n 2) a)
+      :else (recur b (- n 1) (*' b a)))))
